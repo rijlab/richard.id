@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Richard Jeremy</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #08090c;
+    --fg: #f2f3f5;
+    --muted: #7a7f8a;
+    --line: #1c1f26;
+    --accent: #7cf5c4;
+    --accent-dim: #2a4a3e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+
+  body {
+    background:
+      radial-gradient(circle at 15% 10%, rgba(124,245,196,0.07), transparent 40%),
+      radial-gradient(circle at 85% 90%, rgba(124,245,196,0.05), transparent 45%),
+      var(--bg);
+    color: var(--fg);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px;
+    overflow: hidden;
+  }
+
+  .grid-overlay {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  .stage {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
+    background: rgba(124,245,196,0.05);
+    padding: 6px 14px;
+    border-radius: 999px;
+    margin-bottom: 36px;
+    opacity: 0;
+    animation: rise 0.7s ease forwards;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(124,245,196,0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(124,245,196,0); }
+    100% { box-shadow: 0 0 0 0 rgba(124,245,196,0); }
+  }
+
+  h1 {
+    font-size: clamp(48px, 10vw, 88px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--fg);
+    opacity: 0;
+    animation: rise 0.7s ease 0.1s forwards;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    margin-top: 20px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    opacity: 0;
+    animation: rise 0.7s ease 0.2s forwards;
+  }
+
+  .socials {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    opacity: 0;
+    animation: rise 0.7s ease 0.35s forwards;
+  }
+
+  .socials a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--line);
+    padding-bottom: 2px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .socials a:hover {
+    color: var(--accent);
+    border-color: var(--accent-dim);
+  }
+
+  .progress-wrap {
+    margin-top: 48px;
+    opacity: 0;
+    animation: rise 0.7s ease 0.3s forwards;
+  }
+
+  .progress-track {
+    width: 100%;
+    max-width: 360px;
+    height: 3px;
+    background: var(--line);
+    border-radius: 999px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-fill {
+    position: absolute;
+    top: 0;
+    left: -40%;
+    height: 100%;
+    width: 40%;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: scan 2.2s ease-in-out infinite;
+    border-radius: 999px;
+  }
+
+  @keyframes scan {
+    0% { left: -40%; }
+    100% { left: 100%; }
+  }
+
+  .progress-label {
+    margin-top: 14px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  footer {
+    position: fixed;
+    bottom: 28px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    opacity: 0;
+    animation: rise 0.7s ease 0.4s forwards;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pulse-dot, .progress-fill { animation: none; }
+    .eyebrow, h1, .subtitle, .progress-wrap, footer { animation: none; opacity: 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-overlay"></div>
+
+<div class="stage">
+  <div class="eyebrow">
+    <span class="pulse-dot"></span>
+    rebuilding, from the ground up
+  </div>
+
+  <h1>Richard<span>&nbsp;</span>Jeremy</h1>
+
+  <p class="subtitle">
+    The old site is gone. This one is being built clean, piece by piece.
+  </p>
+
+  <div class="progress-wrap">
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-label">in progress</div>
+  </div>
+
+  <div class="socials">
+    <a href="https://instagram.com/richard.jer" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://tiktok.com/@richard.jer" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://youtube.com/@RichardsLab" target="_blank" rel="noopener">YouTube</a>
+  </div>
+</div>
+
+<footer>
+  Richard Jeremy &mdash; back soon
+</footer>
+
+</body>
+</html>
